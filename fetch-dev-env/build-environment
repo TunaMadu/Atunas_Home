@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Generic tooling
+# Terminal
+sudo dnf -y install foot 
+
+# Language/tooling manager? could be using docker for all of this...
+# We can also just slap a live USB for this portable, independent
+# machine dev environment idea we got going on... but i think a 
+# simple bash script is faster to set up
+
+if ! command -v mise &> /dev/null; then
+	curl https://mise.run | sh
+	echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+
+	source ~/.bashrc
+	# stores mise into ~/.local/bin
+else
+	echo "mise already installed"
+fi
+
+APP_DIR="$HOME/applications"
+
+
+if [ ! -d "$APP_DIR" ]; then
+	mkdir "$APP_DIR"
+else
+	echo "Applications directory already created @ $APP_DIR"
+fi
+
+NVIM_VERSION="release-0.12"
+
+# NVIM
+# if we don't have nvim we fetch necessary tooling and build it
+if ! command -v nvim &> /dev/null; then 
+	sudo dnf install ninja-build cmake gcc make gettext curl glibc-gconv-extra git
+	cd "$APP_DIR"
+	git clone --branch="$NVIM_VERSION"  https://github.com/neovim/neovim.git
+	cd neovim
+	make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX="$HOME/.local"
+	sudo make install
+else
+	echo "Nvim-$NVIM_VERSION installed"
+fi
+

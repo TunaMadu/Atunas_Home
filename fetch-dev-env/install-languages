@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# installing language and tooling? with mise
+
+mise version
+
+# custom mise language configs
+# necessary for versions prior to 2026.8.0
+# configs are found in ~/.config/mise/config.toml
+mise settings ruby.compile=false
+
+mise use -g ruby
+mise use -g node
+
+# we could technically do this ourselves... as its just adding things to the path...
+# but because we could have multiple versions of languages and tools.... it does become a chore.
+#
+# but you never know, we might revist this in the future, but mise does a p good job rn
