@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# we could also just copy the config file over and over again...
+# if we'd had one....
+
+git config --global user.name Mikol
+git config --global user.email 65615840+TunaMadu@users.noreply.github.com
+git config --global init.defaultBranch main
+git config --global core.editor nvim
