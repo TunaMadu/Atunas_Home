@@ -2,7 +2,7 @@
 
 # Generic tooling
 # Terminal
-sudo dnf -y install foot 
+sudo dnf -y install foot ripgrep
 
 # Language/tooling manager? could be using docker for all of this...
 # We can also just slap a live USB for this portable, independent
