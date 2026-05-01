@@ -2,7 +2,7 @@
 
 # Generic tooling
 # Terminal
-sudo dnf -y install foot ripgrep
+sudo dnf -y install foot ripgrep git 
 
 # Language/tooling manager? could be using docker for all of this...
 # We can also just slap a live USB for this portable, independent
@@ -33,7 +33,7 @@ NVIM_VERSION="release-0.12"
 # NVIM
 # if we don't have nvim we fetch necessary tooling and build it
 if ! command -v nvim &> /dev/null; then 
-	sudo dnf install ninja-build cmake gcc make gettext curl glibc-gconv-extra git
+	sudo dnf install ninja-build cmake gcc make gettext curl glibc-gconv-extra 
 	cd "$APP_DIR"
 	git clone --branch="$NVIM_VERSION"  https://github.com/neovim/neovim.git
 	cd neovim
