@@ -3,7 +3,7 @@ vim.g.localleader = " "
 
 vim.api.nvim_create_autocmd("PackChanged",{
 	callback = function(ev)
-		local name, kind = ev.data.spec.name,ev.data.kind
+	  local name, kind = ev.data.spec.name,ev.data.kind
 
 		if name == "telescope-fzf-native.nvim" and (kind == "install" or kind == "update") then
 			-- make is pretty cool... you don't have to worry about... (don't quote me)
@@ -22,13 +22,17 @@ vim.api.nvim_create_autocmd("PackChanged",{
 	end
 })
 
+-- because pack can't really resolve dependencies (yet) like lazy
+-- we should really install em separately first but things function for now
 local fetch = function(x) return "https://github.com/" .. x end
 vim.pack.add({
 	fetch "rebelot/kanagawa.nvim",
 
-	fetch "nvim-telescope/telescope.nvim", 
+	fetch "nvim-telescope/telescope.nvim",
 	fetch 'nvim-lua/plenary.nvim',
-	fetch "nvim-telescope/telescope-fzf-native.nvim", 
+	fetch 'nvim-telescope/telescope-fzf-native.nvim',
+
+	fetch 'neovim/nvim-lspconfig' , -- fetches lsp config files so that we don't have to manually bring them into the editor to enable
 })
 
 
@@ -36,3 +40,34 @@ vim.cmd.colorscheme "kanagawa"
 
 require"core-configs.keybinds"
 require"core-configs.options"
+
+--
+-- LSP setup... 
+-- We used mason in the past for our dev tooling.
+-- But I want to try using mise for this core, system level tooling, letting
+-- nvim focus more on the editor itself. This does mean our mise config file 
+-- will need more things to fetch and does create a dependence on the tool 
+-- for anything to function... but i think it makes things more robust.
+--
+
+vim.lsp.enable("lua_ls")
+
+--
+-- :h diagnostic
+--
+vim.diagnostic.config({
+	-- p cool error integration
+	-- though the effect is a little jarring with many errors lol
+	virtual_lines = {
+		severity = {
+			vim.diagnostic.severity.ERROR,
+			vim.diagnostic.severity.WARN,
+		},
+	},
+	virtual_text = {
+		severity = {
+			vim.diagnostic.severity.INFO,
+			vim.diagnostic.severity.HINT,
+		},
+	},
+})
