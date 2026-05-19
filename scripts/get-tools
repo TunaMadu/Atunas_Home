@@ -11,6 +11,7 @@ mise settings ruby.compile=false
 
 mise use -g ruby
 mise use -g node
+mise use -g tree-sitter # need this for nvim treesitter 
 
 # we could technically do this ourselves... as its just adding things to the path...
 # but because we could have multiple versions of languages and tools.... it does become a chore.
@@ -23,4 +24,4 @@ mise use -g node
 # gem install
 # and so forth...
 #
-# annoying, sure. but bash can fix some of the annoyance.
+# bash is p cool
