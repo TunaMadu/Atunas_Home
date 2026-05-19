@@ -1,15 +1,17 @@
-local languages = require("core.util").get_language_info()
+local util = require("core.util")
 local blink = require("blink.cmp")
 
 blink.setup()
 
-for _, info in pairs(languages) do
-	vim.lsp.config(info.lsp, {
-		capabilities = require("blink.cmp").get_lsp_capabilities(),
-	})
+util.get_language_lsps(function(lsps)
+	for _, lsp in ipairs(lsps) do
+		vim.lsp.config(lsp, {
+			capabilities = require("blink.cmp").get_lsp_capabilities(),
+		})
 
-	vim.lsp.enable(info.lsp)
-end
+		vim.lsp.enable(lsp)
+	end
+end)
 
 --so far we are only having lsp configurations for
 --lua

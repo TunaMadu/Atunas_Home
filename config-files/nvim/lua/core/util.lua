@@ -24,30 +24,42 @@ local filetype_info = {
 	},
 }
 
-M.get_language_info = function()
-	return filetype_info
+local comb_list = function(callback)
+	local temp = {}
+	for ftype, info in pairs(filetype_info) do
+		callback(ftype, info, temp)
+	end
+	return temp
+end
+
+M.filter = function(filter)
+	return comb_list(filter)
 end
 
 M.get_language_formatters = function()
-	local temp = {}
-
-	for lang, info in pairs(filetype_info) do
-		temp[lang] = info.formatters
-	end
-
-	return temp
+	return comb_list(function(ftype, info, temp)
+		temp[ftype] = info.formatters
+	end)
 end
 
 M.get_language_linters = function()
-	local temp = {}
-
-	for lang, info in pairs(filetype_info) do
+	return comb_list(function(ftype, info, temp)
 		if info.linters ~= nil then
-			temp[lang] = info.linters
+			temp[ftype] = info.linters
 		end
-	end
+	end)
+end
 
-	return temp
+M.get_languages = function()
+	return comb_list(function(ftype, _, temp)
+		table.insert(temp, ftype)
+	end)
+end
+
+M.get_language_lsps = function(aux)
+	aux(comb_list(function(_, info, temp)
+		table.insert(temp, info.lsp)
+	end))
 end
 
 M.fetch_plugins = function(sources)

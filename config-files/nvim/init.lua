@@ -14,6 +14,9 @@ util.fetch_plugins({
 	"nvim-telescope/telescope.nvim",
 	"nvim-telescope/telescope-fzf-native.nvim", -- addon
 
+	-- tree sitter not sure when it will stop working...
+	"nvim-treesitter/nvim-treesitter",
+
 	---
 	--- CORE EDITOR PLUGINS
 	---

@@ -1,8 +1,8 @@
 vim.api.nvim_create_autocmd({ "PackChanged" }, {
 	callback = function(ev)
-		local name, kind = ev.data.spec.name, ev.data.kind
+		local name, change_type = ev.data.spec.name, ev.data.kind
 
-		if name == "telescope-fzf-native.nvim" and (kind == "install" or kind == "update") then
+		if name == "telescope-fzf-native.nvim" and (change_type == "install" or change_type == "update") then
 			--
 			-- make is pretty cool... you don't have to worry about... (don't quote me)
 			-- not building when there is already a built version of the program.
@@ -17,6 +17,9 @@ vim.api.nvim_create_autocmd({ "PackChanged" }, {
 			-- And to the whole world of building from source...
 			--
 			vim.system({ "make" }, { cwd = ev.data.path })
+		end
+		if name == "nvim-treesitter" and (change_type == "install" or change_type == "update") then
+			vim.cmd("TSUpdate")
 		end
 	end,
 })
